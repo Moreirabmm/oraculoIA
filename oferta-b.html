@@ -1,0 +1,726 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Or&aacute;culo IA &mdash; Tarot e astrologia com intelig&ecirc;ncia artificial. 50 perguntas gr&aacute;tis." />
+  <title>Or&aacute;culo IA &mdash; Suas respostas, agora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" />
+  </noscript>
+  <style>
+    :root {
+      --fp: #0B0714; --fs: #151022;
+      --gh: linear-gradient(135deg,#1A0F2E 0%,#2D1B4E 45%,#4A2C6D 100%);
+      --ar: #8B5CF6; --av: #C084FC; --ad: #E8B84B;
+      --cg: linear-gradient(90deg,#7C3AED 0%,#C026D3 100%);
+      --tp: #F5F3FA; --ts: #B8AFC9; --ok: #4ADE80;
+      --mw: 1280px; --r: 12px; --rl: 20px; --t: 250ms ease-out;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;cursor:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="font-size:24px"><text y="22">&#127183;</text></svg>'),auto}
+    body{background:var(--fp);color:var(--tp);font-family:'Inter',sans-serif;font-size:1rem;line-height:1.6;overflow-x:hidden}
+    h1,h2,h3{font-family:'Fraunces',serif;line-height:1.1}
+    h1{font-size:clamp(2.2rem,5vw,4rem);font-weight:600;letter-spacing:-.02em}
+    h2{font-size:clamp(1.8rem,3.5vw,2.75rem);font-weight:600}
+    h3{font-size:1.15rem;font-weight:600;font-family:'Inter',sans-serif}
+    p{color:var(--ts);line-height:1.7}
+    a{color:inherit;text-decoration:none}
+    section{position:relative;overflow:hidden}
+    .container{max-width:var(--mw);margin:0 auto;padding:0 1.5rem}
+    .hv{color:var(--av)} .hg{color:var(--ad)} .hs{color:var(--ok)}
+
+    /* CURSORES */
+    a,button,.btn,.tarot-step,.faq-btn{cursor:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="font-size:24px"><text y="22">&#10024;</text></svg>'),pointer!important}
+
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.875rem 2rem;border-radius:50px;font-family:'Inter',sans-serif;font-size:1rem;font-weight:600;border:none;transition:transform var(--t),box-shadow var(--t);text-decoration:none;white-space:nowrap;min-height:48px}
+    .btn:focus-visible{outline:2px solid var(--av);outline-offset:3px}
+    .btn-p{background:var(--cg);color:#fff;box-shadow:0 4px 24px rgba(124,58,237,.4);position:relative;overflow:hidden}
+    .btn-p::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);transform:skewX(-20deg)}
+    .btn-p:hover{transform:scale(1.02);box-shadow:0 6px 32px rgba(124,58,237,.6)}
+    .btn-o{background:transparent;color:var(--tp);border:1.5px solid rgba(139,92,246,.5)}
+    .btn-o:hover{border-color:var(--av);background:rgba(139,92,246,.08);transform:scale(1.02)}
+    .btn-ow{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.6)}
+    .btn-ow:hover{background:rgba(255,255,255,.12);transform:scale(1.02)}
+
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.9s cubic-bezier(0.22,1,0.36,1),transform 0.9s cubic-bezier(0.22,1,0.36,1);will-change:opacity,transform;}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-left{opacity:0;transform:translateX(-40px);transition:opacity 0.9s cubic-bezier(0.22,1,0.36,1),transform 0.9s cubic-bezier(0.22,1,0.36,1)}
+    .reveal-right{opacity:0;transform:translateX(40px);transition:opacity 0.9s cubic-bezier(0.22,1,0.36,1),transform 0.9s cubic-bezier(0.22,1,0.36,1)}
+    .reveal-scale{opacity:0;transform:scale(0.95) translateY(12px);transition:opacity 0.8s cubic-bezier(0.22,1,0.36,1),transform 0.8s cubic-bezier(0.22,1,0.36,1)}
+    .reveal-left.visible,.reveal-right.visible,.reveal-scale.visible{opacity:1;transform:none}
+
+    /* HERO GALAXY VIDEO */
+    .hero-bg-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.35;
+      z-index: 0;
+      pointer-events: none;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+    }
+
+    /* PARTICLES */
+    .particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+    .particle{position:absolute;border-radius:50%;filter:blur(6px);opacity:.5;animation:floatP linear infinite}
+    @keyframes floatP{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-16px);opacity:.8}}
+
+    /* HEADER */
+    #header{position:fixed;top:0;left:0;right:0;z-index:1000;transition:background 300ms ease,box-shadow 300ms ease}
+    #header.scrolled{background:rgba(21,16,34,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 24px rgba(0,0,0,.4)}
+    .hdr-inner{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;max-width:var(--mw);margin:0 auto}
+    .logo{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;display:flex;align-items:center;gap:.5rem}
+    .logo-icon{width:32px;height:32px;background:var(--cg);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;line-height:1}
+    .nav-links{display:flex;gap:2rem;list-style:none}
+    .nav-links a{font-size:.9rem;font-weight:500;color:var(--ts);position:relative;transition:color var(--t)}
+    .nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:100%;height:1px;background:var(--av);transform:scaleX(0);transform-origin:left;transition:transform var(--t)}
+    .nav-links a:hover{color:var(--tp)}
+    .nav-links a:hover::after{transform:scaleX(1)}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+    .hamburger span{display:block;width:24px;height:2px;background:var(--tp);border-radius:2px;transition:transform 300ms ease,opacity 300ms ease}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .mob-menu{display:none;flex-direction:column;padding:1rem 1.5rem 1.5rem;background:rgba(21,16,34,.98);border-top:1px solid rgba(139,92,246,.15);gap:1rem}
+    .mob-menu.open{display:flex}
+    .mob-menu a{font-size:1rem;color:var(--ts);font-weight:500;padding:.5rem 0}
+
+    /* HERO */
+    #hero{background:var(--fp);padding:9rem 0 6rem;min-height:100vh;display:flex;align-items:center}
+    .hero-content{display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;z-index:1;max-width:860px;margin:0 auto}
+    .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.35);border-radius:50px;padding:.4rem 1rem;font-size:.85rem;font-weight:600;color:var(--av);margin-bottom:1.5rem}
+    .hero-badge .star{color:var(--ad)}
+    .hero-h1{color:var(--tp);margin-bottom:1.25rem}
+    .hero-sub{font-size:1.125rem;margin-bottom:2.25rem;max-width:640px}
+    .hero-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;margin-bottom:1.25rem}
+    .microcopy{display:flex;align-items:center;justify-content:center;gap:.4rem;font-size:.85rem;color:var(--ts)}
+
+    /* DOR STACK */
+    #dor{background:var(--fp);padding:6rem 0}
+    .sec-tc{text-align:center;color:var(--tp);margin-bottom:.75rem}
+    .sec-sc{text-align:center;margin-bottom:3rem;font-size:1.05rem}
+    .dor-stack{display:flex;flex-direction:column;gap:1rem;margin-bottom:3rem;max-width:780px;margin-left:auto;margin-right:auto}
+    .dor-card{background:var(--fs);border:1px solid rgba(139,92,246,.12);border-radius:var(--r);padding:1.5rem 2rem;display:flex;align-items:center;gap:1.25rem;transition:border-color var(--t), transform var(--t), box-shadow var(--t);}
+    .dor-card:hover{border-color:rgba(139,92,246,.4);transform:translateX(6px);box-shadow:-4px 0 0 0 var(--ar)}
+    .dor-icon{width:48px;height:48px;border-radius:12px;background:rgba(139,92,246,.1);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;border:1px solid rgba(139,92,246,.25)}
+    .dor-card p{font-size:1.05rem;color:var(--tp);line-height:1.5;font-style:italic;margin:0}
+    .cta-c{text-align:center}
+
+    /* TEMAS */
+    #temas{background:var(--fs);padding:6rem 0}
+    .sec-lbl{text-align:center;font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--ar);margin-bottom:1rem}
+    .sec-sub{text-align:center;font-size:1.05rem;margin-bottom:3.5rem;max-width:560px;margin-left:auto;margin-right:auto}
+    .temas-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+    .tema-card{background:var(--fp);border:1px solid rgba(139,92,246,.15);border-radius:var(--rl);overflow:hidden;transition:transform 250ms ease-out,box-shadow 250ms ease-out,border-color 250ms ease-out;cursor:default}
+    .tema-card:hover{transform:translateY(-6px);border-color:rgba(139,92,246,.5);box-shadow:0 0 32px rgba(139,92,246,.3)}
+    .tema-card:hover .tema-img{transform:scale(1.06)}
+    .tema-img-wrap{position:relative;height:180px;overflow:hidden}
+    .tema-img{width:100%;height:100%;object-fit:cover;transition:transform 500ms ease-out;display:block}
+    .tema-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(11,7,20,0) 30%,rgba(11,7,20,0.85) 100%)}
+    .tema-body{padding:1.5rem 1.75rem 1.75rem}
+    .tema-icon{font-size:1.8rem;margin-bottom:.75rem;display:block}
+    .tema-card h3{color:var(--tp);font-size:1.1rem;margin-bottom:.5rem}
+    .tema-card p{font-size:.88rem}
+
+    /* COMO FUNCIONA - INTERACTIVE FLIP */
+    #como-funciona{background:var(--fp);padding:6rem 0}
+    .tiragem{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3.5rem;perspective:1400px}
+    .tarot-step{position:relative}
+    .ts-inner{position:relative;width:100%;aspect-ratio:2/3;transform-style:preserve-3d;transition:transform 0.9s cubic-bezier(0.4,0,0.2,1);cursor:pointer;}
+    @media (hover: hover) {
+      .tarot-step:hover .ts-front { box-shadow:0 0 50px rgba(124,58,237,.5); }
+      .tarot-step:hover .ts-back { box-shadow:0 0 50px rgba(124,58,237,.3); border-color:rgba(139,92,246,.6); }
+    }
+    .ts-click-hint { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ok); margin-top: 1rem; animation: pulse 2s infinite; }
+    .tarot-step.flipped .ts-inner{transform:rotateY(180deg)}
+    .ts-back,.ts-front{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;text-align:center;border:1px solid rgba(139,92,246,.35);transition: box-shadow 300ms ease, border-color 300ms ease;}
+    .ts-back{background:linear-gradient(160deg,#1A0F2E 0%,#2D1B4E 50%,#1A0F2E 100%);gap:.75rem;}
+    .ts-back-pattern{width:80%;height:80%;border:1px solid rgba(139,92,246,.25);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;background:repeating-linear-gradient(45deg,rgba(139,92,246,.04) 0px,rgba(139,92,246,.04) 1px,transparent 1px,transparent 12px),repeating-linear-gradient(-45deg,rgba(139,92,246,.04) 0px,rgba(139,92,246,.04) 1px,transparent 1px,transparent 12px);}
+    .ts-back-sym{font-size:3rem;filter:drop-shadow(0 0 12px rgba(139,92,246,.8))}
+    .ts-back-label{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(192,132,252,.6)}
+    .ts-front{background:linear-gradient(160deg,#2D1B4E 0%,#1A0F2E 100%);transform:rotateY(180deg);border-color:rgba(192,132,252,.4);box-shadow:0 0 40px rgba(124,58,237,.3);gap:1rem;justify-content:flex-start;padding-top:2rem;}
+    .ts-num{width:52px;height:52px;border-radius:50%;background:var(--cg);color:#fff;font-size:1.3rem;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(124,58,237,.6);flex-shrink:0;margin-bottom:.25rem;}
+    .ts-front h3{color:var(--tp);font-size:1rem;margin-bottom:.5rem;line-height:1.3}
+    .ts-front p{font-size:.82rem;line-height:1.6;color:var(--ts)}
+    .ts-front .ts-tag{margin-top:auto;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--av);opacity:.7;}
+    .tarot-step::before,.tarot-step::after{content:'';position:absolute;left:50%;bottom:-8px;width:88%;height:100%;border-radius:20px;background:linear-gradient(160deg,#2D1B4E,#1A0F2E);border:1px solid rgba(139,92,246,.2);z-index:-1;transform:translateX(-50%) rotate(3deg);}
+    .tarot-step::after{bottom:-14px;transform:translateX(-50%) rotate(-2deg);opacity:.5;}
+    .passos-nota{text-align:center;margin-top:3.5rem;display:flex;align-items:center;justify-content:center;gap:.5rem;font-size:.9rem}
+
+    /* DIFERENCIAIS */
+    #diferenciais{background:var(--fs);padding:6rem 0}
+    .dif-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+    .dif-txt h2{color:var(--tp);margin-bottom:1.25rem}
+    .chk-card{background:var(--fp);border:1px solid rgba(139,92,246,.15);border-radius:var(--rl);padding:2.5rem 2rem;overflow:hidden}
+    .chk-item{display:flex;align-items:flex-start;gap:1rem;padding:.875rem 0;border-bottom:1px solid rgba(139,92,246,.08)}
+    .chk-item:last-child{border-bottom:none}
+    .chk-icon{width:24px;height:24px;border-radius:50%;background:rgba(232,184,75,.15);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;margin-top:2px;color:var(--ad);border:1px solid rgba(232,184,75,.3)}
+    .chk-item span{color:var(--tp);font-size:.95rem;font-weight:500}
+
+    /* BANNER CTA */
+    #banner-cta{background:var(--cg);padding:5rem 0}
+    .banner-in{display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+    .banner-txt h2{font-family:'Fraunces',serif;font-size:clamp(1.5rem,3vw,2.2rem);color:#fff;margin-bottom:.5rem}
+    .banner-txt p{color:rgba(255,255,255,.82);font-size:1.05rem}
+
+    /* FAQ */
+    #faq{background:var(--fp);padding:6rem 0}
+    .faq-list{max-width:780px;margin:3.5rem auto 0}
+    .faq-item{border:1px solid rgba(139,92,246,.15);border-radius:var(--r);margin-bottom:.75rem;overflow:hidden;transition:border-color var(--t)}
+    .faq-item.open{border-color:rgba(139,92,246,.4)}
+    .faq-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;background:var(--fs);border:none;text-align:left;gap:1rem;transition:background var(--t)}
+    .faq-btn:hover{background:rgba(139,92,246,.08)}
+    .faq-btn:focus-visible{outline:2px solid var(--av);outline-offset:-2px}
+    .faq-q{font-size:1rem;font-weight:600;color:var(--tp);font-family:'Inter',sans-serif}
+    .faq-icon{width:28px;height:28px;border-radius:50%;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);display:flex;align-items:center;justify-content:center;color:var(--ar);font-size:1.2rem;line-height:1;flex-shrink:0;transition:transform 300ms ease,background 300ms ease}
+    .faq-item.open .faq-icon{transform:rotate(45deg);background:rgba(139,92,246,.25)}
+    .faq-body{max-height:0;overflow:hidden;transition:max-height 300ms ease;background:var(--fs)}
+    .faq-inner{padding:1rem 1.5rem 1.25rem;font-size:.95rem;line-height:1.7;border-top:1px solid rgba(139,92,246,.08)}
+
+    /* CTA FINAL */
+    #cta-final{background:var(--gh);padding:8rem 0;text-align:center}
+    #cta-final h2{color:var(--tp);font-size:clamp(2rem,4vw,3.2rem);margin-bottom:1.25rem}
+    .lead{font-size:1.125rem;margin-bottom:2.5rem;max-width:520px;margin-left:auto;margin-right:auto}
+    .btn-lg{font-size:1.1rem;padding:1.1rem 2.5rem}
+    .btn-pulse{animation:pulse 2.5s ease-in-out infinite}
+    @keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 4px 24px rgba(124,58,237,.4)}50%{transform:scale(1.03);box-shadow:0 8px 40px rgba(124,58,237,.7)}}
+    .btn-pulse:hover{animation-play-state:paused;transform:scale(1.05)}
+    @keyframes shimmer{0%{left:-100%}100%{left:200%}}
+    .btn-shimmer::after{animation:shimmer 5s 3s ease-in-out infinite}
+    .cta-micro{margin-top:1.25rem;font-size:.875rem}
+
+    /* FOOTER */
+    #footer{background:var(--fp);border-top:1px solid rgba(139,92,246,.1);padding:3rem 0}
+    .ftr-inner{display:flex;flex-direction:column;align-items:center;gap:1.5rem;text-align:center}
+    .ftr-logo{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;display:flex;align-items:center;gap:.4rem}
+    .ftr-disc{font-size:.8rem;max-width:640px;line-height:1.6}
+    .ftr-copy{font-size:.78rem;color:rgba(184,175,201,.5)}
+
+    /* STICKY BAR */
+    #sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(21,16,34,.97);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid rgba(139,92,246,.25);padding:.875rem 1.5rem;z-index:999;opacity:0;transform:translateY(100%);transition:opacity 300ms ease,transform 300ms ease}
+    #sticky-bar.visible{opacity:1;transform:translateY(0)}
+    #sticky-bar .btn{width:100%;justify-content:center}
+
+    /* RESPONSIVE */
+    @media(max-width:1024px){
+      .dif-grid{grid-template-columns:1fr}
+      .tiragem{grid-template-columns:1fr; max-width:400px; margin-left:auto; margin-right:auto}
+    }
+    @media(min-width:641px)and(max-width:1024px){
+      .temas-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:900px){
+      .nav-links{display:none}
+      .hamburger{display:flex}
+      .hdr-btn{display:none}
+    }
+    @media(max-width:640px){
+      #sticky-bar{display:block}
+      #hero{padding:7rem 0 5rem}
+      .hero-btns{flex-direction:column}
+      .hero-btns .btn{width:100%;justify-content:center}
+      .temas-grid{grid-template-columns:1fr;gap:1.5rem}
+      .chk-card{padding:1.5rem 1rem}
+      .chk-item{gap:0.75rem}
+      .chk-item span{font-size:0.9rem}
+      .banner-in{flex-direction:column;text-align:center}
+      .banner-in .btn{width:100%;justify-content:center}
+      .btn{white-space:normal;text-align:center;line-height:1.3;padding-left:1.5rem;padding-right:1.5rem}
+      .btn-lg{font-size:1rem;padding:1rem 1.25rem;width:100%}
+      #cta-final .btn{width:100%;justify-content:center}
+      body{padding-bottom:80px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .btn-pulse,.tarot-card{animation:none}
+      .btn-shimmer::after{animation:none}
+      .particle{animation:none}
+      .reveal{transition:none;opacity:1;transform:none}
+      .cline{stroke-dashoffset:0;transition:none}
+    }
+  </style>
+</head>
+<body>
+
+<header id="header" role="banner">
+  <div class="hdr-inner">
+    <a href="#" class="logo" aria-label="Or&aacute;culo IA">
+      <div class="logo-icon" aria-hidden="true">&#128302;</div>
+      Or&aacute;culo IA
+    </a>
+    <nav aria-label="Menu principal">
+      <ul class="nav-links">
+        <li><a href="https://pay.hotmart.com/O107145338T" target="_blank">Como funciona</a></li>
+        <li><a href="#temas">Temas</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <a href="https://pay.hotmart.com/O107145338T" target="_blank" class="btn btn-p hdr-btn" style="padding:.6rem 1.35rem;font-size:.9rem">Testar gr&aacute;tis</a>
+    <button class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mob-nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav id="mob-nav" class="mob-menu" aria-label="Menu mobile">
+    <a href="https://pay.hotmart.com/O107145338T" target="_blank">Como funciona</a>
+    <a href="#temas">Temas</a>
+    <a href="#faq">FAQ</a>
+    <a href="https://pay.hotmart.com/O107145338T" target="_blank" class="btn btn-p" style="text-align:center;justify-content:center;margin-top:.5rem">Testar gr&aacute;tis</a>
+  </nav>
+</header>
+
+<section id="hero" aria-labelledby="hero-h">
+  <video class="hero-bg-video" autoplay loop muted playsinline src="movimento_suave_202608201000.mp4"></video>
+  <div class="particles" aria-hidden="true" id="hero-particles"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge reveal" data-dir="up">
+        <span class="star">&#9733;</span>
+        Gr&aacute;tis e sem compromisso
+      </div>
+      <h1 id="hero-h" class="hero-h1 reveal" data-dir="up">
+        Chega de passar dias com d&uacute;vidas,
+        <span class="hv"><br>procurando v&aacute;rios tar&oacute;logos diferentes.</span>
+      </h1>
+      <p class="hero-sub reveal" data-dir="up">
+        Receba <strong style="color:var(--ad)">50 leituras personalizadas de tarot e astrologia</strong>
+        com intelig&ecirc;ncia artificial &mdash; dispon&iacute;veis 24h, sem julgamento, sem enrola&ccedil;&atilde;o.
+        Sua resposta em minutos.
+      </p>
+      <div class="hero-btns reveal" data-dir="up">
+        <a href="https://pay.hotmart.com/O107145338T" target="_blank" class="btn btn-p btn-shimmer">&#10024; Quero minhas 50 perguntas gr&aacute;tis!</a>
+        <a href="#como-funciona" class="btn btn-o">Ver como funciona &darr;</a>
+      </div>
+      <div class="microcopy reveal" data-dir="up">
+        <span class="hs">&#10003;</span>
+        <span><span class="hs">Zero risco.</span> Cancele quando quiser, sem burocracia.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="dor" aria-labelledby="dor-h">
+  <div class="container">
+    <h2 id="dor-h" class="sec-tc reveal">
+      Voc&ecirc; n&atilde;o precisa continuar presa no <span class="hv">&ldquo;e se...&rdquo;</span>
+    </h2>
+    <p class="sec-sc reveal">Reconhece algum desses pensamentos?</p>
+    <div class="dor-stack">
+      <div class="dor-card reveal" data-delay="0">
+        <div class="dor-icon">&#10067;</div>
+        <p>&ldquo;E se eu tomar a decis&atilde;o errada e me arrepender para sempre?&rdquo;</p>
+      </div>
+      <div class="dor-card reveal" data-delay="220">
+        <div class="dor-icon">&#128148;</div>
+        <p>&ldquo;E se ele/ela n&atilde;o sentir o mesmo que eu? E se eu estiver me iludindo?&rdquo;</p>
+      </div>
+      <div class="dor-card reveal" data-delay="440">
+        <div class="dor-icon">&#127744;</div>
+        <p>&ldquo;E se eu estiver no caminho errado e desperdi&ccedil;ando meu tempo?&rdquo;</p>
+      </div>
+      <div class="dor-card reveal" data-delay="660">
+        <div class="dor-icon">&#10024;</div>
+        <p>&ldquo;E se existir uma resposta que eu ainda n&atilde;o consegui enxergar?&rdquo;</p>
+      </div>
+    </div>
+    <div class="cta-c reveal">
+      <a href="https://pay.hotmart.com/O107145338T" target="_blank" class="btn btn-p">&#10024; Quero minhas 50 perguntas gr&aacute;tis!</a>
+      <div class="microcopy" style="justify-content:center;margin-top:.75rem">
+        <span class="hs">&#10003;</span><span>Gr&aacute;tis e sem compromisso</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="temas" aria-labelledby="temas-h">
+  <div class="container">
+    <p class="sec-lbl reveal">Fa&ccedil;a a pergunta que n&atilde;o sai da sua cabe&ccedil;a</p>
+    <h2 id="temas-h" class="sec-tc reveal">Sobre o que voc&ecirc; quer clareza <span class="hv">hoje?</span></h2>
+    <p class="sec-sub reveal">O Or&aacute;culo IA responde com profundidade e sensibilidade em todas as &aacute;reas da sua vida.</p>
+    <div class="temas-grid">
+      <div class="tema-card reveal-scale">
+        <div class="tema-img-wrap">
+          <img class="tema-img" src="img_amor.jpg" alt="Amor e Relacionamentos" loading="lazy" decoding="async" />
+          <div class="tema-img-overlay" aria-hidden="true"></div>
+        </div>
+        <div class="tema-body">
+          <span class="tema-icon" aria-hidden="true">&#128149;</span>
+          <h3>Amor e Relacionamentos</h3>
+          <p>Entenda os sentimentos, padr&otilde;es e o que o futuro guarda para sua vida amorosa. Pergunte sem filtro.</p>
+        </div>
+      </div>
+      <div class="tema-card reveal-scale">
+        <div class="tema-img-wrap">
+          <img class="tema-img" src="img_futuro.jpg" alt="Futuro e Novos Caminhos" loading="lazy" decoding="async" />
+          <div class="tema-img-overlay" aria-hidden="true"></div>
+        </div>
+        <div class="tema-body">
+          <span class="tema-icon" aria-hidden="true">&#127775;</span>
+          <h3>Futuro e Novos Caminhos</h3>
+          <p>Descubra que energia est&aacute; chegando, que ciclos est&atilde;o se fechando e onde suas escolhas podem te levar.</p>
+        </div>
+      </div>
+      <div class="tema-card reveal-scale">
+        <div class="tema-img-wrap">
+          <img class="tema-img" src="img_decisoes.jpg" alt="Decis&otilde;es Dif&iacute;ceis" loading="lazy" decoding="async" />
+          <div class="tema-img-overlay" aria-hidden="true"></div>
+        </div>
+        <div class="tema-body">
+          <span class="tema-icon" aria-hidden="true">&#9878;&#65039;</span>
+          <h3>Decis&otilde;es Dif&iacute;ceis</h3>
+          <p>Quando a cabe&ccedil;a gira e o cora&ccedil;&atilde;o hesita, o Or&aacute;culo ajuda a enxergar o que a ansiedade esconde.</p>
+        </div>
+      </div>
+      <div class="tema-card reveal-scale">
+        <div class="tema-img-wrap">
+          <img class="tema-img" src="img_espiritual.jpg" alt="Orienta&ccedil;&atilde;o Espiritual" loading="lazy" decoding="async" />
+          <div class="tema-img-overlay" aria-hidden="true"></div>
+        </div>
+        <div class="tema-body">
+          <span class="tema-icon" aria-hidden="true">&#128302;</span>
+          <h3>Orienta&ccedil;&atilde;o Espiritual</h3>
+          <p>Conecte-se com seu prop&oacute;sito, compreenda padr&otilde;es que se repetem e encontre clareza interior.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="como-funciona" aria-labelledby="cf-h">
+  <div class="container">
+    <p class="sec-lbl reveal">Simples, r&aacute;pido e privado</p>
+    <h2 id="cf-h" class="sec-tc reveal">
+      Sua tiragem come&ccedil;a <span class="hv">agora</span>
+    </h2>
+    <p class="sec-sub reveal" style="margin-bottom:0">
+      Observe as cartas virando e descobrindo como o Or&aacute;culo IA funciona.
+    </p>
+
+    <div class="tiragem" role="list" aria-label="Passos de como funciona">
+      <div class="tarot-step" role="listitem" aria-label="Passo 1">
+        <div class="ts-inner">
+          <div class="ts-back" aria-hidden="true">
+            <div class="ts-back-pattern">
+              <span class="ts-back-sym">&#128302;</span>
+              <span class="ts-back-label">Or&aacute;culo IA</span>
+              <span class="ts-click-hint">&#128070; Toque para virar</span>
+            </div>
+          </div>
+          <div class="ts-front">
+            <div class="ts-num" aria-hidden="true">I</div>
+            <h3>Conte o que est&aacute; acontecendo</h3>
+            <p>Fa&ccedil;a sua pergunta livremente, com suas pr&oacute;prias palavras. Sem julgamento, sem respostas prontas.</p>
+            <span class="ts-tag">&#9997;&#65039; Sua pergunta</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tarot-step" role="listitem" aria-label="Passo 2">
+        <div class="ts-inner">
+          <div class="ts-back" aria-hidden="true">
+            <div class="ts-back-pattern">
+              <span class="ts-back-sym">&#11088;</span>
+              <span class="ts-back-label">Or&aacute;culo IA</span>
+              <span class="ts-click-hint">&#128070; Toque para virar</span>
+            </div>
+          </div>
+          <div class="ts-front">
+            <div class="ts-num" aria-hidden="true">II</div>
+            <h3>Receba sua leitura personalizada</h3>
+            <p>A IA analisa seu contexto &uacute;nico e gera uma leitura de tarot ou astrologia espec&iacute;fica para voc&ecirc;.</p>
+            <span class="ts-tag">&#127775; Sua leitura</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tarot-step" role="listitem" aria-label="Passo 3">
+        <div class="ts-inner">
+          <div class="ts-back" aria-hidden="true">
+            <div class="ts-back-pattern">
+              <span class="ts-back-sym">&#9728;&#65039;</span>
+              <span class="ts-back-label">Or&aacute;culo IA</span>
+              <span class="ts-click-hint">&#128070; Toque para virar</span>
+            </div>
+          </div>
+          <div class="ts-front">
+            <div class="ts-num" aria-hidden="true">III</div>
+            <h3>Enxergue o que a ansiedade n&atilde;o deixa ver</h3>
+            <p>Chegam clareza, perspectiva e caminhos que estavam invis&iacute;veis no meio da confus&atilde;o emocional.</p>
+            <span class="ts-tag">&#10024; Sua clareza</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="passos-nota reveal">
+      <span aria-hidden="true">&#128274;</span>
+      Tudo acontece de forma online, privada e em poucos minutos.
+    </div>
+  </div>
+</section>
+
+<section id="diferenciais" aria-labelledby="dif-h">
+  <div class="container">
+    <div class="dif-grid">
+      <div class="dif-txt">
+        <p class="sec-lbl reveal-left" data-delay="0" style="text-align:left">Por que o Or&aacute;culo IA &eacute; diferente</p>
+        <h2 id="dif-h" class="reveal-left" data-delay="150" style="text-align:left">
+          Cansada da mesma hist&oacute;ria?<br>
+          <span class="hv">Isto n&atilde;o &eacute; um hor&oacute;scopo gen&eacute;rico.</span>
+        </h2>
+        <p class="reveal-left" data-delay="400" style="margin-top:1.25rem">
+          O hor&oacute;scopo do dia &eacute; feito para milh&otilde;es de pessoas ao mesmo tempo.
+          O Or&aacute;culo IA &eacute; feito <strong style="color:var(--tp)">para voc&ecirc;, neste momento, com sua pergunta espec&iacute;fica</strong>.
+          &Eacute; a diferen&ccedil;a entre um rem&eacute;dio gen&eacute;rico e um tratamento personalizado.
+        </p>
+      </div>
+      <div class="chk-card">
+        <div class="chk-item reveal" data-delay="200"><div class="chk-icon" aria-hidden="true">&#9733;</div><span>Dispon&iacute;vel 24h, todos os dias &mdash; quando a d&uacute;vida aparecer</span></div>
+        <div class="chk-item reveal" data-delay="380"><div class="chk-icon" aria-hidden="true">&#9733;</div><span>Leituras personalizadas para a SUA situa&ccedil;&atilde;o espec&iacute;fica</span></div>
+        <div class="chk-item reveal" data-delay="560"><div class="chk-icon" aria-hidden="true">&#9733;</div><span>Respostas em minutos &mdash; sem agendamento, sem espera</span></div>
+        <div class="chk-item reveal" data-delay="740"><div class="chk-icon" aria-hidden="true">&#9733;</div><span>Ambiente 100% privado &mdash; s&oacute; voc&ecirc; e suas perguntas</span></div>
+        <div class="chk-item reveal" data-delay="920"><div class="chk-icon" aria-hidden="true">&#9733;</div><span>Amor, trabalho, decis&otilde;es, espiritualidade &mdash; sem limites de tema</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="banner-cta" aria-label="Chamada para a&ccedil;&atilde;o">
+  <div class="container">
+    <div class="banner-in">
+      <div class="banner-txt reveal-left">
+        <h2>50 leituras gr&aacute;tis esperando por voc&ecirc;.</h2>
+        <p>Sem compromisso. S&oacute; clareza.</p>
+      </div>
+      <a href="https://pay.hotmart.com/O107145338T" target="_blank" class="btn btn-ow reveal-right">&#10024; Quero minhas 50 perguntas gr&aacute;tis!</a>
+    </div>
+  </div>
+</section>
+
+<section id="faq" aria-labelledby="faq-h">
+  <div class="container">
+    <p class="sec-lbl reveal">Perguntas frequentes</p>
+    <h2 id="faq-h" class="sec-tc reveal">Ainda com <span class="hv">d&uacute;vidas?</span></h2>
+    <div class="faq-list" role="list">
+      <div class="faq-item reveal" role="listitem">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-q">A leitura &eacute; realmente personalizada para mim?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <div class="faq-inner">Sim. O Or&aacute;culo IA analisa exatamente o que voc&ecirc; escreve &mdash; sua situa&ccedil;&atilde;o, suas palavras e o contexto que voc&ecirc; compartilha. N&atilde;o existe uma resposta pr&eacute;-pronta esperando por voc&ecirc;. Cada leitura &eacute; gerada naquele momento, para aquela pergunta espec&iacute;fica.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal" role="listitem">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-q">Posso perguntar sobre outra pessoa espec&iacute;fica?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <div class="faq-inner">Sim. Voc&ecirc; pode incluir informa&ccedil;&otilde;es sobre a outra pessoa na sua pergunta &mdash; nome, situa&ccedil;&atilde;o, relacionamento. O Or&aacute;culo considera essas informa&ccedil;&otilde;es para dar uma leitura mais contextualizada.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal" role="listitem">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-q">Posso perguntar sobre outros assuntos al&eacute;m de amor?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <div class="faq-inner">Com certeza. O Or&aacute;culo IA responde sobre amor, trabalho, fam&iacute;lia, sa&uacute;de emocional, decis&otilde;es financeiras, espiritualidade, prop&oacute;sito de vida. Qualquer d&uacute;vida que carregue peso emocional para voc&ecirc; &eacute; bem-vinda.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal" role="listitem">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-q">Quanto tempo leva para receber a resposta?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <div class="faq-inner">Em segundos. N&atilde;o h&aacute; espera por disponibilidade de tar&oacute;logo, sem agendamento, sem fila. Voc&ecirc; faz a pergunta e a leitura chega em instantes, a qualquer hora do dia ou da noite.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal" role="listitem">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-q">As 50 perguntas s&atilde;o realmente de gra&ccedil;a?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <div class="faq-inner">Sim, completamente. N&atilde;o pedimos cart&atilde;o de cr&eacute;dito para come&ccedil;ar. Voc&ecirc; usa as 50 leituras e s&oacute; decide se quer continuar depois de experimentar. Zero risco, zero comprometimento financeiro.</div>
+        </div>
+      </div>
+      <div class="faq-item reveal" role="listitem">
+        <button class="faq-btn" aria-expanded="false">
+          <span class="faq-q">Posso cancelar quando quiser?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <div class="faq-inner">Sim. Se decidir assinar o plano completo no futuro e quiser cancelar, &eacute; simples e sem burocracia. Sem liga&ccedil;&otilde;es, sem e-mails de confirma&ccedil;&atilde;o intermin&aacute;vel, sem penalidades.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cta-final" aria-labelledby="ctaf-h">
+  <div class="particles" aria-hidden="true" id="cta-particles"></div>
+  <div class="container" style="position:relative;z-index:1">
+    <h2 id="ctaf-h" class="reveal">
+      Chega de d&uacute;vidas.<br>
+      Comece agora. <span class="hg">Zero risco.</span>
+    </h2>
+    <p class="lead reveal">
+      Suas primeiras <strong style="color:var(--av)">50 leituras de tarot e astrologia</strong>
+      est&atilde;o esperando &mdash; personalizadas, privadas e gr&aacute;tis.
+    </p>
+    <div class="reveal">
+      <a href="https://pay.hotmart.com/O107145338T" target="_blank" class="btn btn-p btn-pulse btn-shimmer btn-lg">
+        &#10024; Quero minhas 50 perguntas gr&aacute;tis!
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer id="footer" role="contentinfo">
+  <div class="container">
+    <div class="ftr-inner">
+      <div class="ftr-logo reveal"><span aria-hidden="true">&#128302;</span> Or&aacute;culo IA</div>
+      <p class="ftr-disc reveal" data-delay="150">
+        O Or&aacute;culo IA &eacute; uma ferramenta de entretenimento e reflex&atilde;o pessoal baseada em intelig&ecirc;ncia artificial.
+        As leituras fornecidas t&ecirc;m car&aacute;ter simb&oacute;lico e n&atilde;o constituem aconselhamento m&eacute;dico, psicol&oacute;gico,
+        jur&iacute;dico ou financeiro. N&atilde;o substitua acompanhamento profissional qualificado por leituras de tarot
+        ou astrologia. Resultados variam de pessoa para pessoa.
+      </p>
+      <p class="ftr-copy reveal" data-delay="300">
+        &copy; 2026 Or&aacute;culo IA. Todos os direitos reservados.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<div id="sticky-bar" role="complementary" aria-label="A&ccedil;&atilde;o r&aacute;pida">
+  <a href="https://pay.hotmart.com/O107145338T" target="_blank" class="btn btn-p">&#10024; Quero minhas 50 perguntas gr&aacute;tis!</a>
+</div>
+
+<script>
+  // Header
+  const hdr = document.getElementById('header');
+  window.addEventListener('scroll', () => hdr.classList.toggle('scrolled', scrollY > 60), {passive:true});
+
+  // Hamburger
+  const ham = document.querySelector('.hamburger');
+  const mob = document.getElementById('mob-nav');
+  ham.addEventListener('click', () => {
+    const o = ham.classList.toggle('open');
+    mob.classList.toggle('open', o);
+    ham.setAttribute('aria-expanded', o);
+  });
+  mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    ham.classList.remove('open');
+    mob.classList.remove('open');
+    ham.setAttribute('aria-expanded','false');
+  }));
+
+  // Particles
+  function makeParticles(id, n) {
+    const c = document.getElementById(id);
+    if (!c) return;
+    const cols = ['#8B5CF6','#C084FC','#E8B84B'];
+    for (let i = 0; i < n; i++) {
+      const d = document.createElement('div');
+      d.className = 'particle';
+      const s = Math.random() * 8 + 4;
+      d.style.cssText =
+        'width:' + s + 'px;height:' + s + 'px;' +
+        'left:' + Math.random() * 100 + '%;top:' + Math.random() * 100 + '%;' +
+        'background:' + cols[~~(Math.random() * 3)] + ';' +
+        'animation-duration:' + (Math.random() * 3 + 4) + 's;' +
+        'animation-delay:' + (Math.random() * 4) + 's;' +
+        'opacity:' + (Math.random() * 0.4 + 0.3);
+      c.appendChild(d);
+    }
+  }
+  makeParticles('hero-particles', 7);
+  makeParticles('cta-particles', 5);
+
+  // SCROLL REVEAL ENGINE
+  const SECTIONS = document.querySelectorAll('section, footer');
+  SECTIONS.forEach(sec => {
+    const items = sec.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+    let autoIdx = 0;
+    items.forEach(el => {
+      if (el.hasAttribute('data-delay')) {
+        el.style.transitionDelay = el.getAttribute('data-delay') + 'ms';
+      } else {
+        el.style.transitionDelay = (autoIdx * 100) + 'ms';
+        autoIdx++;
+      }
+    });
+  });
+
+  const allReveal = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        ro.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -48px 0px' });
+  allReveal.forEach(el => ro.observe(el));
+
+  // TAROT CARDS CLICK LOGIC
+  const tarotSteps = document.querySelectorAll('.tarot-step');
+  tarotSteps.forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+    });
+  });
+
+  // FAQ ACCORDION LOGIC
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const btn = item.querySelector('.faq-btn');
+    const body = item.querySelector('.faq-body');
+    btn.addEventListener('click', () => {
+      const was = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(x => {
+        x.classList.remove('open');
+        x.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
+        x.querySelector('.faq-body').style.maxHeight = '0';
+      });
+      if (!was) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // STICKY BAR
+  const sb = document.getElementById('sticky-bar');
+  if (sb) {
+    new IntersectionObserver(([e]) => sb.classList.toggle('visible', !e.isIntersecting), {threshold: 0.1})
+      .observe(document.getElementById('hero'));
+  }
+
+  // SMOOTH SCROLL
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e) {
+      const h = this.getAttribute('href');
+      if (h === '#') return;
+      const t = document.querySelector(h);
+      if (t) {
+        e.preventDefault();
+        window.scrollTo({top: t.getBoundingClientRect().top + scrollY - hdr.offsetHeight - 16, behavior: 'smooth'});
+      }
+    });
+  });
+</script>
+</body>
+</html>
